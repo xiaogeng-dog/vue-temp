@@ -1,6 +1,17 @@
 {
   "name": "vue3-ts-temp",
   "version": "0.0.0",
+  "homepage": "https://github.com/xiaogeng-dog/vue-temp",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xiaogeng-dog/vue-temp.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "vue-temp",
+    "email": "359315634@qq.com",
+    "url": "https://github.com/xiaogeng-dog"
+  },
   "private": true,
   "type": "module",
   "scripts": {
