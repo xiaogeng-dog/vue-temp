@@ -10,16 +10,13 @@ lerna-debug.log*
 node_modules
 .DS_Store
 dist
+largeScreen
 dist-ssr
 coverage
 *.local
 
 /cypress/videos/
 /cypress/screenshots/
-
-auto-imports.d.ts
-components.d.ts
-.eslintrc-auto-import.json
 
 # Editor directories and files
 .vscode/*
@@ -30,5 +27,4 @@ components.d.ts
 *.njsproj
 *.sln
 *.sw?
-
-*.tsbuildinfo
+/package-lock.json

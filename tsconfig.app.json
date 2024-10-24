@@ -1,24 +1,41 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.dom.json",
   "compilerOptions": {
-    "composite": true,
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-
+    "target": "esnext",
+    "module": "esnext",
+    "strict": true,
+    "jsx": "preserve",
+    "resolveJsonModule": true,
+    "noImplicitAny": false,
+    "importHelpers": true,
+    "moduleResolution": "Bundler",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "allowJs": true,
+    "sourceMap": false,
+    "skipLibCheck": true,
+    "types": ["vite/client", "unplugin-vue-router/client"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "#/*": ["./types/*"]
-    }
+      "#/*": ["./src/model/*"]
+    },
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
+    "outDir": "target", // 请保留这个属性，防止tsconfig.json文件报错
+    "typeRoots": ["./node_modules/@types/", "./types", "./node_modules"]
   },
+  "extends": ["@vue/tsconfig/tsconfig.dom.json"],
   "include": [
-    "env.d.ts",
-    "src/**/*",
+    "src",
+    "src/**/*.ts",
+    "src/**/*.tsx",
     "src/**/*.vue",
-    "internal/**/*.ts",
-    "mock/**/*.ts",
     "types/**/*.d.ts",
-    "types/**/*.ts",
+    "src/types/auto-components.d.ts",
+    "src/types/typed-router.d.ts",
+    "src/types/auto-imports.d.ts", // 导入上一步生成的配置文件
+    "mock/**/*.ts",
     "vite.config.ts"
   ],
-  "exclude": ["src/**/__tests__/*"]
+  "exclude": ["dist", "target", "node_modules", "src/**/__tests__/*"]
 }

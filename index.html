@@ -2,12 +2,126 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/pwa-192x192.png" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#f6d2d2" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <meta name="msapplication-TileColor" content="#f6d2d2" />
+    <title><%= VITE_GLOB_APP_TITLE %></title>
+    <script>
+      ;(function () {
+        const prefersDark =
+          window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        const setting = localStorage.getItem('vueuse-color-scheme') || 'auto'
+        if (setting === 'dark' || (prefersDark && setting !== 'light'))
+          document.documentElement.classList.toggle('dark', true)
+      })()
+    </script>
   </head>
+
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <!--app-html-->
+      <style>
+        /* From Uiverse.io by SchawnnahJ */
+        .__spinner {
+          position: relative;
+          width: 2.5em;
+          height: 2.5em;
+          transform: rotate(165deg);
+        }
+
+        .__spinner:before,
+        .__spinner:after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          display: block;
+          width: 0.5em;
+          height: 0.5em;
+          border-radius: 0.25em;
+          transform: translate(-50%, -50%);
+        }
+
+        .__spinner:before {
+          animation: before8 2s infinite;
+        }
+
+        .__spinner:after {
+          animation: after6 2s infinite;
+        }
+
+        @keyframes before8 {
+          0% {
+            width: 0.5em;
+            box-shadow:
+              1em -0.5em rgba(225, 20, 98, 0.75),
+              -1em 0.5em rgba(111, 202, 220, 0.75);
+          }
+
+          35% {
+            width: 2.5em;
+            box-shadow:
+              0 -0.5em rgba(225, 20, 98, 0.75),
+              0 0.5em rgba(111, 202, 220, 0.75);
+          }
+
+          70% {
+            width: 0.5em;
+            box-shadow:
+              -1em -0.5em rgba(225, 20, 98, 0.75),
+              1em 0.5em rgba(111, 202, 220, 0.75);
+          }
+
+          100% {
+            box-shadow:
+              1em -0.5em rgba(225, 20, 98, 0.75),
+              -1em 0.5em rgba(111, 202, 220, 0.75);
+          }
+        }
+
+        @keyframes after6 {
+          0% {
+            height: 0.5em;
+            box-shadow:
+              0.5em 1em rgba(61, 184, 143, 0.75),
+              -0.5em -1em rgba(233, 169, 32, 0.75);
+          }
+
+          35% {
+            height: 2.5em;
+            box-shadow:
+              0.5em 0 rgba(61, 184, 143, 0.75),
+              -0.5em 0 rgba(233, 169, 32, 0.75);
+          }
+
+          70% {
+            height: 0.5em;
+            box-shadow:
+              0.5em -1em rgba(61, 184, 143, 0.75),
+              -0.5em 1em rgba(233, 169, 32, 0.75);
+          }
+
+          100% {
+            box-shadow:
+              0.5em 1em rgba(61, 184, 143, 0.75),
+              -0.5em -1em rgba(233, 169, 32, 0.75);
+          }
+        }
+
+        .__spinner {
+          position: absolute;
+          top: calc(50% - 1.25em);
+          left: calc(50% - 1.25em);
+        }
+      </style>
+
+      <div class="__spinner"></div>
+    </div>
     <script type="module" src="/src/main.ts"></script>
+    <noscript>
+      This website requires JavaScript to function properly. Please enable JavaScript to continue.
+    </noscript>
   </body>
 </html>

@@ -1,85 +1,51 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <el-config-provider :locale="zhCn">
+    <router-view v-slot="{ Component, route }">
+      <section class="app-wrapper">
+        <keep-alive :include="keepAliveRouteNames">
+          <component :is="Component" :key="route.name" />
+        </keep-alive>
+      </section>
+    </router-view>
+  </el-config-provider>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
+<script setup lang="ts">
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+import { useTitle } from '@/hooks/web/useTitle'
+import { RouterView } from 'vue-router'
+import './utils/flexible'
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+const keepAliveRouteNames = computed(() => {
+  return useRouteCacheStore().routeCaches as string[]
+})
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
+useTitle()
+</script>
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
+<style lang="less" scoped>
+.app-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+  /* 隐藏浏览器自带的滚动条 */
+  ::-webkit-scrollbar {
+    width: 0; /* 调整滚动条宽度 */
   }
 
-  .logo {
-    margin: 0 2rem 0 0;
+  ::-webkit-scrollbar-track {
+    background-color: transparent; /* 设置滚动条轨道背景色为透明 */
   }
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2); /* 设置滚动条滑块颜色 */
+    border-radius: 0.25em; /* 设置滚动条滑块圆角 */
   }
 
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
+  /* 显示页面内的滚动条 */
+  .scrollable-content {
+    overflow-y: auto; /* 启用垂直滚动条 */
   }
 }
 </style>

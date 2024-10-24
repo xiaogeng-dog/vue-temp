@@ -1,10 +1,11 @@
-import type { GlobEnvConfig } from '#/config'
+import type { GlobEnvConfig } from '@/model/config'
 import pkg from '../../package.json'
 import { API_ADDRESS } from '@/enums/cacheEnum'
 
 export function getCommonStoragePrefix() {
   const { VITE_GLOB_APP_TITLE } = getAppEnvConfig()
-  return `${VITE_GLOB_APP_TITLE.replace(/\s/g, '_')}__${getEnv()}`.toUpperCase()
+  console.log(VITE_GLOB_APP_TITLE)
+  return `${VITE_GLOB_APP_TITLE?.replace(/\s/g, '_')}__${getEnv()}`?.toUpperCase()
 }
 
 // Generate cache key according to version
@@ -30,7 +31,8 @@ export function getAppEnvConfig() {
   const ENV = import.meta.env.DEV
     ? // Get the global configuration (the configuration will be extracted independently when packaging)
       (import.meta.env as unknown as GlobEnvConfig)
-    : ((window as any)[ENV_NAME] as unknown as GlobEnvConfig)
+    : ((window as any)[ENV_NAME] as unknown as GlobEnvConfig) ||
+      (import.meta.env as unknown as GlobEnvConfig)
   const { VITE_GLOB_APP_TITLE, VITE_GLOB_API_URL_PREFIX, VITE_GLOB_UPLOAD_URL } = ENV
   let { VITE_GLOB_API_URL } = ENV
   if (localStorage.getItem(API_ADDRESS)) {
