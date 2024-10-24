@@ -1,11 +1,18 @@
 import type { MockMethod } from 'vite-plugin-mock'
-import { Random } from 'mockjs'
+import mockjs from 'mockjs'
 import { resultPageSuccess } from '../_util'
 
 function getRandomPics(count = 10): string[] {
   const arr: string[] = []
   for (let i = 0; i < count; i++) {
-    arr.push(Random.image('800x600', Random.color(), Random.color(), Random.title()))
+    arr.push(
+      mockjs.Random.image(
+        '800x600',
+        mockjs.Random.color(),
+        mockjs.Random.color(),
+        mockjs.Random.title()
+      )
+    )
   }
   return arr
 }
@@ -30,7 +37,12 @@ const demoList = (() => {
       radio1: `选项${index + 1}`,
       radio2: `选项${index + 1}`,
       radio3: `选项${index + 1}`,
-      avatar: Random.image('400x400', Random.color(), Random.color(), Random.first()),
+      avatar: mockjs.Random.image(
+        '400x400',
+        mockjs.Random.color(),
+        mockjs.Random.color(),
+        mockjs.Random.first()
+      ),
       imgArr: getRandomPics(Math.ceil(Math.random() * 3) + 1),
       imgs: getRandomPics(Math.ceil(Math.random() * 3) + 1),
       date: `@date('yyyy-MM-dd')`,

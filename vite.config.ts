@@ -16,6 +16,8 @@ import VueRouter from 'unplugin-vue-router/vite'
 import { unheadVueComposablesImports } from '@unhead/vue'
 
 import tailwindcss from 'tailwindcss'
+
+import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 /**
  * Plugin to minimize and use ejs template syntax in index.html.
  * https://github.com/anncwb/vite-plugin-html
@@ -73,12 +75,11 @@ export default defineConfig(({ command, mode }) => {
           VueRouterAutoImports,
           {
             'vue-router/auto': ['useLink'],
-            '@/utils/i18n': ['i18n', 'locale'],
-            'vue-i18n': ['useI18n']
+            '@/hooks/web/useI18n': ['useI18n']
           },
           unheadVueComposablesImports
         ],
-        dirs: ['src/stores/modules'],
+        dirs: ['src/stores/modules', 'src/composables'],
         // 生成自动导入的TS声明文件
         // dts: './auto-imports.d.ts',
         dts: 'src/types/auto-imports.d.ts',
@@ -104,6 +105,12 @@ export default defineConfig(({ command, mode }) => {
             enabledCollections: ['ep'] //@iconify-json/ep 是 Element Plus 的图标库，所以 IconsResolver 配置了 enabledCollections: ['ep']
           })
         ]
+      }),
+      VueI18nPlugin({
+        // locale messages resource pre-compile option
+        runtimeOnly: true,
+        compositionOnly: true,
+        include: [resolve(__dirname, 'src/locales/**')]
       }),
       Icons({
         autoInstall: true

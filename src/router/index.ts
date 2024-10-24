@@ -1,3 +1,4 @@
+import type { App } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router/auto'
 import { handleHotUpdate, routes } from 'vue-router/auto-routes'
 import NProgress from '@/utils/progress'
@@ -32,5 +33,9 @@ router.beforeEach(async (to: EnhancedRouteLocation, _from, next) => {
 router.afterEach(() => {
   NProgress.done()
 })
+
+export const setupRouter = (app: App<Element>) => {
+  app.use(router)
+}
 
 export default router

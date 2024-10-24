@@ -37,10 +37,13 @@
     "resize-detector": "^0.3.0",
     "vue": "^3.5.12",
     "vue-countup-v3": "^1.4.2",
-    "vue-router": "^4.4.5"
+    "vue-i18n": "^10.0.4",
+    "vue-router": "^4.4.5",
+    "web-storage-cache": "^1.1.1"
   },
   "devDependencies": {
     "@iconify-json/ep": "^1.2.0",
+    "@intlify/unplugin-vue-i18n": "^5.2.0",
     "@tsconfig/node18": "^18.2.4",
     "@types/lodash-es": "^4.17.12",
     "@types/mockjs": "^1.0.10",

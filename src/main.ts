@@ -1,8 +1,13 @@
 import { createApp } from 'vue'
 import { createHead } from '@unhead/vue'
 import App from './App.vue'
-import router from './router'
-import pinia from './stores'
+
+// 初始化多语言
+import { setupI18n } from '@/plugins/vueI18n'
+// 引入状态管理
+import { setupStore } from '@/stores'
+// 路由
+import router, { setupRouter } from '@/router'
 
 // normalize.css
 import 'normalize.css/normalize.css'
@@ -13,13 +18,26 @@ import './assets/css/index.less'
 // tailwindcss
 import './assets/css/tailwind.css'
 
-// import icons from './global/register-icons'
+import Logger from '@/utils/Logger'
 
-const app = createApp(App)
-const head = createHead()
-app.use(router)
-app.use(pinia)
-app.use(head)
+// import icons from './global/register-icons'
+// 创建实例
+const setupAll = async () => {
+  const app = createApp(App)
+  const head = createHead()
+
+  setupStore(app)
+  setupRouter(app)
+  await setupI18n(app)
+
+  await router.isReady()
+
+  app.use(head)
+  app.mount('#app')
+}
+
 // app.use(icons)
 
-app.mount('#app')
+setupAll()
+
+Logger.prettyPrimary(`欢迎使用`, import.meta.env.VITE_APP_TITLE)

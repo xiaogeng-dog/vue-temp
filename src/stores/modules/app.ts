@@ -2,30 +2,19 @@ import { defineStore } from 'pinia'
 
 type ConfigProviderTheme = 'dark' | 'light'
 
-export interface AppStore {
-  switchMode: (val: ConfigProviderTheme) => void
+interface AppStore {
+  theme: ConfigProviderTheme
 }
 
 const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
 
-const useAppStore = defineStore(
-  'app',
-  () => {
-    const theme = prefersDark ? 'dark' : 'light'
-    const mode = ref<ConfigProviderTheme>(theme)
-
-    const switchMode = (val: ConfigProviderTheme) => {
-      mode.value = val
+export const useAppStore = defineStore('appStore', {
+  state: (): AppStore => ({
+    theme: prefersDark ? 'dark' : 'light'
+  }),
+  actions: {
+    switchMode(val: ConfigProviderTheme) {
+      this.theme = val
     }
-
-    return {
-      mode,
-      switchMode
-    }
-  },
-  {
-    persist: true
   }
-)
-
-export default useAppStore
+})

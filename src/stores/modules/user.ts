@@ -33,7 +33,7 @@ export const useAuthStore = defineStore('authState', {
   getters: {},
   actions: {
     // Set user's information
-    setInfo(partial: Partial<UserState>) {
+    setInfo(partial: Nullable<Partial<UserState>>) {
       this.userInfo = { ...partial }
     },
     async login(loginForm: LoginData) {
