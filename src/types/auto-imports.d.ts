@@ -230,6 +230,7 @@ declare global {
   const useParentElement: (typeof import('@vueuse/core'))['useParentElement']
   const usePerformanceObserver: (typeof import('@vueuse/core'))['usePerformanceObserver']
   const usePermission: (typeof import('@vueuse/core'))['usePermission']
+  const usePermissionStore: (typeof import('../stores/modules/permission'))['usePermissionStore']
   const usePointer: (typeof import('@vueuse/core'))['usePointer']
   const usePointerLock: (typeof import('@vueuse/core'))['usePointerLock']
   const usePointerSwipe: (typeof import('@vueuse/core'))['usePointerSwipe']

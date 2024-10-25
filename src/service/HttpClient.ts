@@ -1,10 +1,12 @@
 import axios from 'axios'
 import AxiosCancelToken from './AxiosCancelToken'
-import NProgress from '@/utils/progress'
+import { useNProgress } from '@/hooks/web/useNProgress'
 const axiosCancelToken = new AxiosCancelToken()
 import { TIME_OUT, MAIN_BASE_URL } from './config'
 
 import { STORAGE_TOKEN_KEY } from '@/global/mutation-type'
+
+const { start, done } = useNProgress()
 
 // 这里是用于设定请求后端时，所用的 Token KEY
 // 可以根据自己的需要修改，常见的如 Access-Token，Authorization
@@ -32,7 +34,7 @@ export default class ApiClient {
     })
     instance.interceptors.request.use(
       (request) => {
-        NProgress.start()
+        start()
         console.log('🚀 ~ ApiClient ~ create ~ request:', request)
         // 设置conten-type
         // request.headers ? (request.headers['Content-Type'] = 'application/json') : (request.headers = { 'Content-Type': 'application/json' })
@@ -77,7 +79,7 @@ export default class ApiClient {
 
     instance.interceptors.response.use(
       (response) => {
-        NProgress.done()
+        done()
         // 此处为前后端约定的接口成功的字段，旨在处理状态码为200的错误响应，开发者可自行调整
         if (response.status === 200) {
           if (response?.data?.code == 400) {
@@ -99,7 +101,7 @@ export default class ApiClient {
         }
       },
       (error) => {
-        NProgress.done()
+        done()
         if (error.status !== 0 && !error.status) {
           const newError = error as any
           newError.msg = newError.errMsg || '请检查网络设置'

@@ -1,9 +1,11 @@
 import type { App } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router/auto'
 import { handleHotUpdate, routes } from 'vue-router/auto-routes'
-import NProgress from '@/utils/progress'
+import { useNProgress } from '@/hooks/web/useNProgress'
 import type { EnhancedRouteLocation } from './types'
 import { isLogin } from '@/utils/auth'
+
+const { start, done } = useNProgress()
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.VITE_APP_PUBLIC_PATH),
@@ -17,7 +19,7 @@ if (import.meta.hot) {
 }
 
 router.beforeEach(async (to: EnhancedRouteLocation, _from, next) => {
-  NProgress.start()
+  start()
 
   const routeCacheStore = useRouteCacheStore()
   const userStore = useAuthStore()
@@ -31,7 +33,7 @@ router.beforeEach(async (to: EnhancedRouteLocation, _from, next) => {
 })
 
 router.afterEach(() => {
-  NProgress.done()
+  done()
 })
 
 export const setupRouter = (app: App<Element>) => {

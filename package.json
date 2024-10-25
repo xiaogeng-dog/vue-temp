@@ -1,5 +1,5 @@
 {
-  "name": "sz-big-screen",
+  "name": "vue3-ts-vite-temp",
   "version": "2.0.1",
   "type": "module",
   "private": true,
@@ -37,6 +37,7 @@
     "resize-detector": "^0.3.0",
     "vue": "^3.5.12",
     "vue-countup-v3": "^1.4.2",
+    "vue-dompurify-html": "^5.1.0",
     "vue-i18n": "^10.0.4",
     "vue-router": "^4.4.5",
     "web-storage-cache": "^1.1.1"

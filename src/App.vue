@@ -12,7 +12,6 @@
 
 <script setup lang="ts">
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
-import { useTitle } from '@/hooks/web/useTitle'
 import { RouterView } from 'vue-router'
 import useAutoThemeSwitcher from '@/hooks/useAutoThemeSwitcher'
 import './utils/flexible'
@@ -47,7 +46,6 @@ const keepAliveRouteNames = computed(() => {
 })
 onMounted(() => {
   initializeThemeSwitcher()
-  useTitle()
 })
 </script>
 

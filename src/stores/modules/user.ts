@@ -1,6 +1,11 @@
 import { defineStore } from 'pinia'
+import { getAccessToken } from '@/utils/auth'
 import type { LoginData, UserState } from '@/api/user'
 import { clearToken, setToken } from '@/utils/auth'
+import { CACHE_KEY, useCache } from '@/hooks/web/useCache'
+import { getInfo } from '@/api/login'
+
+const { wsCache } = useCache()
 
 import {
   getEmailCode,
@@ -11,9 +16,21 @@ import {
   register as userRegister
 } from '@/api/user'
 
+interface UserVO {
+  id: number
+  avatar: string
+  nickname: string
+  deptId: number
+}
+
 interface AuthStore {
   // 鉴权令牌
   userInfo: UserState
+  // USER 缓存
+  permissions: string[]
+  roles: string[]
+  isSetUser: boolean
+  user: UserVO
 }
 
 const InitUserInfo = {
@@ -28,10 +45,50 @@ export const useAuthStore = defineStore('authState', {
       uid: 0,
       name: '',
       avatar: ''
+    },
+    permissions: [],
+    roles: [],
+    isSetUser: false,
+    user: {
+      id: 0,
+      avatar: '',
+      nickname: '',
+      deptId: 0
     }
   }),
-  getters: {},
+  getters: {
+    getIsSetUser(): boolean {
+      return this.isSetUser
+    }
+  },
   actions: {
+    async setUserInfoAction() {
+      if (!getAccessToken()) {
+        this.resetState()
+        return null
+      }
+      let userInfo = wsCache.get(CACHE_KEY.USER)
+      if (!userInfo) {
+        userInfo = await getInfo()
+      }
+      this.permissions = userInfo.permissions
+      this.roles = userInfo.roles
+      this.user = userInfo.user
+      this.isSetUser = true
+      wsCache.set(CACHE_KEY.USER, userInfo)
+      wsCache.set(CACHE_KEY.ROLE_ROUTERS, userInfo.menus)
+    },
+    resetState() {
+      this.permissions = []
+      this.roles = []
+      this.isSetUser = false
+      this.user = {
+        id: 0,
+        avatar: '',
+        nickname: '',
+        deptId: 0
+      }
+    },
     // Set user's information
     setInfo(partial: Nullable<Partial<UserState>>) {
       this.userInfo = { ...partial }
