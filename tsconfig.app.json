@@ -14,7 +14,7 @@
     "allowJs": true,
     "sourceMap": false,
     "skipLibCheck": true,
-    "types": ["vite/client", "unplugin-vue-router/client", "@intlify/unplugin-vue-i18n/messages"],
+    "types": ["vite/client", "@intlify/unplugin-vue-i18n/messages"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],

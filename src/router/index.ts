@@ -1,22 +1,21 @@
 import type { App } from 'vue'
-import { createRouter, createWebHistory } from 'vue-router/auto'
-import { handleHotUpdate, routes } from 'vue-router/auto-routes'
+import type { RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
+import remainingRouter from './modules/remaining'
+
 import { useNProgress } from '@/hooks/web/useNProgress'
 import type { EnhancedRouteLocation } from './types'
 import { isLogin } from '@/utils/auth'
 
 const { start, done } = useNProgress()
 
+// 创建路由实例
 const router = createRouter({
-  history: createWebHistory(import.meta.env.VITE_APP_PUBLIC_PATH),
-  // 自动路由已配置
-  routes
+  history: createWebHistory(import.meta.env.VITE_BASE_PATH),
+  strict: true,
+  routes: remainingRouter as RouteRecordRaw[],
+  scrollBehavior: () => ({ left: 0, top: 0 })
 })
-
-// This will update routes at runtime without reloading the page
-if (import.meta.hot) {
-  handleHotUpdate(router)
-}
 
 router.beforeEach(async (to: EnhancedRouteLocation, _from, next) => {
   start()
@@ -35,6 +34,18 @@ router.beforeEach(async (to: EnhancedRouteLocation, _from, next) => {
 router.afterEach(() => {
   done()
 })
+
+export const resetRouter = (): void => {
+  const resetWhiteNameList = ['Redirect', 'Login', 'NoFind', 'Root']
+  router.getRoutes().forEach((route) => {
+    const { name } = route
+    if (name && !resetWhiteNameList.includes(name as string)) {
+      if (router.hasRoute(name)) {
+        router.removeRoute(name)
+      }
+    }
+  })
+}
 
 export const setupRouter = (app: App<Element>) => {
   app.use(router)
